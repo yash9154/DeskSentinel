@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeskSentinel — AI Guardian Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================================
+           DeskSentinel Dashboard — Premium Dark Theme
+           ================================================================ */
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f35;
+            --bg-card-hover: #222845;
+            --bg-glass: rgba(26, 31, 53, 0.75);
+            --border: rgba(99, 102, 241, 0.15);
+            --border-hover: rgba(99, 102, 241, 0.35);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.1);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.1);
+            --info: #3b82f6;
+            --info-bg: rgba(59, 130, 246, 0.1);
+
+            --cyan: #06b6d4;
+            --purple: #a855f7;
+            --pink: #ec4899;
+            --orange: #f97316;
+
+            --radius: 14px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ================================================================
+           Layout
+           ================================================================ */
+
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* ================================================================
+           Header
+           ================================================================ */
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(99, 102, 241, 0.5); }
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        .status-badge.running .dot {
+            background: var(--warning);
+            animation: blink 0.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ================================================================
+           Cards
+           ================================================================ */
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow), var(--shadow-glow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            font-size: 18px;
+        }
+
+        /* ================================================================
+           Grid Layout
+           ================================================================ */
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .grid-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .grid-full {
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-main { grid-template-columns: 1fr; }
+            .grid-stats { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ================================================================
+           Stat Cards
+           ================================================================ */
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.blue { background: var(--info-bg); }
+        .stat-icon.green { background: var(--success-bg); }
+        .stat-icon.yellow { background: var(--warning-bg); }
+        .stat-icon.red { background: var(--danger-bg); }
+        .stat-icon.purple { background: rgba(168, 85, 247, 0.1); }
+        .stat-icon.cyan { background: rgba(6, 182, 212, 0.1); }
+
+        .stat-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ================================================================
+           Buttons
+           ================================================================ */
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            color: white;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ================================================================
+           Controls Section
+           ================================================================ */
+
+        .controls-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .folder-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .folder-tag {
+            padding: 6px 14px;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 999px;
+            font-size: 12px;
+            color: var(--accent-light);
+            font-weight: 500;
+        }
+
+        /* ================================================================
+           Progress Bar
+           ================================================================ */
+
+        .progress-container {
+            margin: 24px 0;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .progress-label span:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .progress-label span:last-child {
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--purple), var(--cyan));
+            background-size: 200% 100%;
+            animation: gradient-flow 2s ease infinite;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ================================================================
+           Changes Table
+           ================================================================ */
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 16px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        td {
+            padding: 10px 16px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(99, 102, 241, 0.03);
+        }
+
+        .action-badge {
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .action-badge.moved { background: var(--info-bg); color: var(--info); }
+        .action-badge.renamed { background: var(--success-bg); color: var(--success); }
+        .action-badge.duplicate { background: var(--warning-bg); color: var(--warning); }
+        .action-badge.moved-renamed { background: rgba(168, 85, 247, 0.1); color: var(--purple); }
+
+        .filename {
+            font-family: 'SF Mono', 'Cascadia Code', monospace;
+            font-size: 12px;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+
+        /* ================================================================
+           Chart Bars (Pure CSS)
+           ================================================================ */
+
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .chart-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chart-bar-label {
+            width: 140px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: right;
+            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chart-bar-track {
+            flex: 1;
+            height: 28px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            min-width: fit-content;
+        }
+
+        .chart-bar-fill.c0 { background: linear-gradient(90deg, #6366f1, #818cf8); }
+        .chart-bar-fill.c1 { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .chart-bar-fill.c2 { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .chart-bar-fill.c3 { background: linear-gradient(90deg, #10b981, #34d399); }
+        .chart-bar-fill.c4 { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .chart-bar-fill.c5 { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .chart-bar-fill.c6 { background: linear-gradient(90deg, #f97316, #fb923c); }
+        .chart-bar-fill.c7 { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        /* ================================================================
+           Config Panel
+           ================================================================ */
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .config-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .config-field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .config-field input,
+        .config-field select {
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .config-field input:focus,
+        .config-field select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .config-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle.active::after {
+            transform: translateX(20px);
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* ================================================================
+           Log Console
+           ================================================================ */
+
+        .console {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 16px;
+            color: var(--text-secondary);
+        }
+
+        .console::-webkit-scrollbar { width: 6px; }
+        .console::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        .log-line { white-space: pre-wrap; word-break: break-all; }
+        .log-line.success { color: var(--success); }
+        .log-line.error { color: var(--danger); }
+        .log-line.warning { color: var(--warning); }
+        .log-line.info { color: var(--cyan); }
+
+        /* ================================================================
+           Empty / Welcome State
+           ================================================================ */
+
+        .welcome-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .welcome-state .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-state h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome-state p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 500px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+
+        /* ================================================================
+           Animations
+           ================================================================ */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        .stagger-1 { animation-delay: 0.05s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.15s; }
+        .stagger-4 { animation-delay: 0.2s; }
+        .stagger-5 { animation-delay: 0.25s; }
+        .stagger-6 { animation-delay: 0.3s; }
+
+        /* ================================================================
+           Footer
+           ================================================================ */
+
+        .footer {
+            text-align: center;
+            padding: 32px 0 16px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        .footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            width: fit-content;
+        }
+
+        .tab {
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: none;
+            background: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Duplicate groups */
+        .dupe-group {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .dupe-group-header {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .dupe-file {
+            font-size: 12px;
+            padding: 4px 0;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dupe-keep { color: var(--success); }
+        .dupe-remove { color: var(--warning); }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo-icon">🛡️</div>
+                <div class="logo-text">
+                    <h1>DeskSentinel</h1>
+                    <p>AI Guardian for Desktop & Downloads</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-badge" id="statusBadge">
+                    <span class="dot"></span>
+                    <span id="statusText">Ready</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="card grid-full slide-up stagger-1">
+            <div class="controls-section">
+                <div>
+                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">
+                        📂 Target Folders
+                    </div>
+                    <div class="folder-tags" id="folderTags"></div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="showTab('config')">⚙️ Settings</button>
+                    <button class="btn btn-primary" id="btnDryRun" onclick="startCleanup(true)">
+                        🔍 Dry Run
+                    </button>
+                    <button class="btn btn-success" id="btnLiveRun" onclick="startCleanup(false)">
+                        🚀 Run Live
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-label">
+                    <span id="progressStep">Initializing...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs" id="mainTabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('changes')">📋 Changes</button>
+            <button class="tab" onclick="showTab('duplicates')">🔄 Duplicates</button>
+            <button class="tab" onclick="showTab('config')">⚙️ Config</button>
+            <button class="tab" onclick="showTab('log')">📟 Log</button>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div class="tab-content active" id="tab-overview">
+            <!-- Stats -->
+            <div class="grid-stats" id="statsGrid">
+                <div class="stat-card slide-up stagger-1">
+                    <div class="stat-icon blue">📂</div>
+                    <div class="stat-info">
+                        <h3 id="statScanned">—</h3>
+                        <p>Files Scanned</p>
+                    </div>
+                </div>
+                <div class="stat-card slide-up stagger-2">
+                    <div class="stat-icon green">📁</div>
+                    <div class="stat-info">
+                        <h3 id="statMoved">—</h3>
+                        <p>Files Moved</p>
+                    </div>
+                </div>
+                <div class="stat-card slide-up stagger-3">
+                    <div class="stat-icon purple">✏️</div>
+                    <div class="stat-info">
+                        <h3 id="statRenamed">—</h3>
+                        <p>Files Renamed</p>
+                    </div>
+                </div>
+                <div class="stat-card slide-up stagger-4">
+                    <div class="stat-icon yellow">🔄</div>
+                    <div class="stat-info">
+                        <h3 id="statDuplicates">—</h3>
+                        <p>Duplicates Found</p>
+                    </div>
+                </div>
+                <div class="stat-card slide-up stagger-5">
+                    <div class="stat-icon red">⚠️</div>
+                    <div class="stat-info">
+                        <h3 id="statErrors">—</h3>
+                        <p>Errors</p>
+                    </div>
+                </div>
+                <div class="stat-card slide-up stagger-6">
+                    <div class="stat-icon cyan">⏱️</div>
+                    <div class="stat-info">
+                        <h3 id="statDuration">—</h3>
+                        <p>Duration (s)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid-main">
+                <div class="card">
+                    <div class="card-title"><span class="icon">📁</span> Category Breakdown</div>
+                    <div class="chart-bars" id="categoryChart">
+                        <div class="welcome-state" style="padding: 30px">
+                            <p style="color: var(--text-muted); font-size: 13px;">Run a cleanup to see category breakdown</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="icon">📄</span> File Type Breakdown</div>
+                    <div class="chart-bars" id="extensionChart">
+                        <div class="welcome-state" style="padding: 30px">
+                            <p style="color: var(--text-muted); font-size: 13px;">Run a cleanup to see file type breakdown</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Changes -->
+        <div class="tab-content" id="tab-changes">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">📋</span> File Changes</div>
+                    <span id="changesCount" style="font-size: 13px; color: var(--text-secondary);">—</span>
+                </div>
+                <div id="changesContent">
+                    <div class="welcome-state">
+                        <div class="emoji">📋</div>
+                        <h2>No Changes Yet</h2>
+                        <p>Run a dry-run or live cleanup to see the list of file changes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Duplicates -->
+        <div class="tab-content" id="tab-duplicates">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">🔄</span> Duplicate Groups</div>
+                    <span id="dupCount" style="font-size: 13px; color: var(--text-secondary);">—</span>
+                </div>
+                <div id="dupContent">
+                    <div class="welcome-state">
+                        <div class="emoji">🔄</div>
+                        <h2>No Duplicates Scanned</h2>
+                        <p>Run a cleanup to detect duplicate files using SHA-256 hashing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Config -->
+        <div class="tab-content" id="tab-config">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">⚙️</span> Configuration</div>
+                    <button class="btn btn-primary" onclick="saveConfig()" style="font-size: 13px; padding: 8px 16px;">
+                        💾 Save Config
+                    </button>
+                </div>
+                <div class="config-grid">
+                    <div class="config-field full-width">
+                        <label>Target Folders (comma-separated)</label>
+                        <input type="text" id="cfgFolders" placeholder="~/Desktop, ~/Downloads">
+                    </div>
+                    <div class="config-field">
+                        <label>AI Provider</label>
+                        <select id="cfgProvider">
+                            <option value="ollama">Ollama</option>
+                            <option value="lmstudio">LM Studio</option>
+                            <option value="openai-compatible-local">OpenAI Compatible (Local)</option>
+                        </select>
+                    </div>
+                    <div class="config-field">
+                        <label>AI Model</label>
+                        <input type="text" id="cfgModel" placeholder="llama3">
+                    </div>
+                    <div class="config-field full-width">
+                        <label>AI Endpoint</label>
+                        <input type="text" id="cfgEndpoint" placeholder="http://localhost:11434/v1/chat/completions">
+                    </div>
+                    <div class="config-field">
+                        <label>Options</label>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
+                            <div class="toggle-container">
+                                <div class="toggle active" id="toggleDryRun" onclick="toggleSwitch(this)"></div>
+                                <span class="toggle-label">Dry Run Mode (preview only)</span>
+                            </div>
+                            <div class="toggle-container">
+                                <div class="toggle active" id="toggleCalendar" onclick="toggleSwitch(this)"></div>
+                                <span class="toggle-label">Calendar Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-field">
+                        <label>Language</label>
+                        <select id="cfgLanguage">
+                            <option value="en">English</option>
+                            <option value="hi-en">Hindi-English Mixed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Log -->
+        <div class="tab-content" id="tab-log">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">📟</span> Activity Log</div>
+                    <button class="btn btn-secondary" onclick="clearLog()" style="font-size: 12px; padding: 6px 12px;">
+                        Clear
+                    </button>
+                </div>
+                <div class="console" id="logConsole">
+                    <div class="log-line info">🛡️ DeskSentinel Dashboard ready.</div>
+                    <div class="log-line">Waiting for cleanup run...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            🛡️ DeskSentinel v1.0.0 — Privacy-first local AI file organizer
+            · Built for <a href="#">WeMakeDevs Hackathon</a>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        // DeskSentinel Dashboard — Client-Side Logic
+        // ================================================================
+
+        const API = '';
+        let pollInterval = null;
+        let logLines = [];
+
+        // ---------------------------------------------------------------
+        // Init
+        // ---------------------------------------------------------------
+
+        async function init() {
+            await loadConfig();
+            await checkStatus();
+        }
+
+        // ---------------------------------------------------------------
+        // Config Management
+        // ---------------------------------------------------------------
+
+        async function loadConfig() {
+            try {
+                const res = await fetch(`${API}/api/config`);
+                const config = await res.json();
+                populateConfig(config);
+                updateFolderTags(config.targetFolders);
+            } catch (err) {
+                addLog('Failed to load config: ' + err, 'error');
+            }
+        }
+
+        function populateConfig(config) {
+            document.getElementById('cfgFolders').value = config.targetFolders.join(', ');
+            document.getElementById('cfgProvider').value = config.aiBackend?.provider || 'ollama';
+            document.getElementById('cfgModel').value = config.aiBackend?.model || 'llama3';
+            document.getElementById('cfgEndpoint').value = config.aiBackend?.endpoint || '';
+            document.getElementById('cfgLanguage').value = config.language || 'en';
+
+            const dryRunToggle = document.getElementById('toggleDryRun');
+            const calToggle = document.getElementById('toggleCalendar');
+
+            if (config.dryRun) dryRunToggle.classList.add('active');
+            else dryRunToggle.classList.remove('active');
+
+            if (config.enableCalendar) calToggle.classList.add('active');
+            else calToggle.classList.remove('active');
+        }
+
+        async function saveConfig() {
+            const newConfig = {
+                targetFolders: document.getElementById('cfgFolders').value.split(',').map(f => f.trim()).filter(Boolean),
+                aiBackend: {
+                    provider: document.getElementById('cfgProvider').value,
+                    model: document.getElementById('cfgModel').value,
+                    endpoint: document.getElementById('cfgEndpoint').value,
+                },
+                language: document.getElementById('cfgLanguage').value,
+                dryRun: document.getElementById('toggleDryRun').classList.contains('active'),
+                enableCalendar: document.getElementById('toggleCalendar').classList.contains('active'),
+            };
+
+            try {
+                const res = await fetch(`${API}/api/config`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newConfig),
+                });
+                const data = await res.json();
+                if (data.success) {
+                    addLog('Configuration saved successfully', 'success');
+                    updateFolderTags(newConfig.targetFolders);
+                } else {
+                    addLog('Failed to save: ' + data.error, 'error');
+                }
+            } catch (err) {
+                addLog('Save error: ' + err, 'error');
+            }
+        }
+
+        function updateFolderTags(folders) {
+            const container = document.getElementById('folderTags');
+            container.innerHTML = folders.map(f => `<span class="folder-tag">${f}</span>`).join('');
+        }
+
+        function toggleSwitch(el) {
+            el.classList.toggle('active');
+        }
+
+        // ---------------------------------------------------------------
+        // Cleanup Execution
+        // ---------------------------------------------------------------
+
+        async function startCleanup(dryRun) {
+            try {
+                const res = await fetch(`${API}/api/run`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dryRun }),
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    addLog(data.error, 'error');
+                    return;
+                }
+
+                addLog(`Started ${dryRun ? 'DRY RUN' : 'LIVE CLEANUP'}...`, 'info');
+                setRunning(true);
+
+                // Start polling
+                pollInterval = setInterval(pollStatus, 800);
+            } catch (err) {
+                addLog('Failed to start: ' + err, 'error');
+            }
+        }
+
+        async function pollStatus() {
+            try {
+                const res = await fetch(`${API}/api/status`);
+                const status = await res.json();
+
+                updateProgress(status.progress.step, status.progress.percent);
+
+                if (!status.isRunning) {
+                    clearInterval(pollInterval);
+                    pollInterval = null;
+                    setRunning(false);
+                    addLog('Cleanup complete!', 'success');
+                    await loadResults();
+                    showTab('overview');
+                }
+            } catch {
+                // ignore poll errors
+            }
+        }
+
+        async function checkStatus() {
+            try {
+                const res = await fetch(`${API}/api/status`);
+                const status = await res.json();
+
+                if (status.isRunning) {
+                    setRunning(true);
+                    pollInterval = setInterval(pollStatus, 800);
+                } else if (status.hasLastResult) {
+                    await loadResults();
+                }
+            } catch {
+                addLog('Cannot connect to server', 'error');
+            }
+        }
+
+        function setRunning(running) {
+            const badge = document.getElementById('statusBadge');
+            const text = document.getElementById('statusText');
+            const progress = document.getElementById('progressContainer');
+            const btnDry = document.getElementById('btnDryRun');
+            const btnLive = document.getElementById('btnLiveRun');
+
+            if (running) {
+                badge.classList.add('running');
+                text.textContent = 'Running...';
+                progress.classList.add('active');
+                btnDry.disabled = true;
+                btnLive.disabled = true;
+            } else {
+                badge.classList.remove('running');
+                text.textContent = 'Ready';
+                progress.classList.remove('active');
+                btnDry.disabled = false;
+                btnLive.disabled = false;
+            }
+        }
+
+        function updateProgress(step, percent) {
+            document.getElementById('progressStep').textContent = step;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        // ---------------------------------------------------------------
+        // Results Display
+        // ---------------------------------------------------------------
+
+        async function loadResults() {
+            try {
+                const res = await fetch(`${API}/api/result`);
+                if (!res.ok) return;
+                const result = await res.json();
+
+                // Update stats
+                document.getElementById('statScanned').textContent = result.scannedCount.toLocaleString();
+                document.getElementById('statMoved').textContent = result.movedCount.toLocaleString();
+                document.getElementById('statRenamed').textContent = result.renamedCount.toLocaleString();
+                document.getElementById('statDuplicates').textContent = result.duplicatesFound.toLocaleString();
+                document.getElementById('statErrors').textContent = result.errorsCount.toLocaleString();
+                document.getElementById('statDuration').textContent = result.duration + 's';
+
+                // Category chart
+                renderBarChart('categoryChart', result.categoryBreakdown || {});
+
+                // Extension chart
+                renderBarChart('extensionChart', result.extBreakdown || {});
+
+                // Changes table
+                renderChangesTable(result.changes || []);
+
+                // Duplicates
+                renderDuplicates(result.duplicateGroups || []);
+
+            } catch (err) {
+                addLog('Failed to load results: ' + err, 'error');
+            }
+        }
+
+        function renderBarChart(containerId, data) {
+            const container = document.getElementById(containerId);
+            const entries = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+            if (entries.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 30px;">No data</p>';
+                return;
+            }
+
+            const max = Math.max(...entries.map(e => e[1]));
+
+            container.innerHTML = entries.map(([label, value], i) => {
+                const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+                return `
+                    <div class="chart-bar-row fade-in" style="animation-delay: ${i * 0.05}s">
+                        <div class="chart-bar-label" title="${label}">${label}</div>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill c${i % 8}" style="width: ${pct}%">${value}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderChangesTable(changes) {
+            const container = document.getElementById('changesContent');
+            const count = document.getElementById('changesCount');
+
+            const visible = changes.filter(c => c.action !== 'skipped');
+            count.textContent = `${visible.length} changes`;
+
+            if (visible.length === 0) {
+                container.innerHTML = '<div class="welcome-state"><div class="emoji">✨</div><h2>No Changes</h2><p>All files are already organized!</p></div>';
+                return;
+            }
+
+            const rows = visible.slice(0, 200).map((c, i) => {
+                const actionClass = c.action.replace('+', '-');
+                return `<tr>
+                    <td>${i + 1}</td>
+                    <td><span class="action-badge ${actionClass}">${c.action}</span></td>
+                    <td class="filename">${truncate(c.originalName, 50)}</td>
+                    <td class="filename">${truncate(c.newName, 50)}</td>
+                    <td>${c.reason || '—'}</td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Action</th>
+                                <th>Original Name</th>
+                                <th>New Name</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+                ${visible.length > 200 ? `<p style="color: var(--text-muted); font-size: 12px; margin-top: 12px;">Showing first 200 of ${visible.length} changes</p>` : ''}
+            `;
+        }
+
+        function renderDuplicates(groups) {
+            const container = document.getElementById('dupContent');
+            const count = document.getElementById('dupCount');
+
+            const totalDupes = groups.reduce((sum, g) => sum + g.duplicates.length, 0);
+            count.textContent = `${totalDupes} duplicates in ${groups.length} groups`;
+
+            if (groups.length === 0) {
+                container.innerHTML = '<div class="welcome-state"><div class="emoji">✨</div><h2>No Duplicates</h2><p>All files are unique!</p></div>';
+                return;
+            }
+
+            container.innerHTML = groups.slice(0, 50).map(g => `
+                <div class="dupe-group">
+                    <div class="dupe-group-header">
+                        Hash: ${g.hash.slice(0, 16)}... · Size: ${formatBytes(g.size)}
+                    </div>
+                    <div class="dupe-file dupe-keep">✅ Keep: ${g.keepFile.name}</div>
+                    ${g.duplicates.map(d => `<div class="dupe-file dupe-remove">🔄 Duplicate: ${d.name}</div>`).join('')}
+                </div>
+            `).join('');
+        }
+
+        // ---------------------------------------------------------------
+        // Tab Navigation
+        // ---------------------------------------------------------------
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            const tabEl = document.getElementById('tab-' + tabName);
+            if (tabEl) tabEl.classList.add('active');
+
+            document.querySelectorAll('.tab').forEach(t => {
+                if (t.textContent.toLowerCase().includes(tabName) ||
+                    (tabName === 'overview' && t.textContent.includes('Overview')) ||
+                    (tabName === 'changes' && t.textContent.includes('Changes')) ||
+                    (tabName === 'duplicates' && t.textContent.includes('Duplicates')) ||
+                    (tabName === 'config' && t.textContent.includes('Config')) ||
+                    (tabName === 'log' && t.textContent.includes('Log'))) {
+                    t.classList.add('active');
+                }
+            });
+        }
+
+        // ---------------------------------------------------------------
+        // Log
+        // ---------------------------------------------------------------
+
+        function addLog(message, type = '') {
+            const console = document.getElementById('logConsole');
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            const time = new Date().toLocaleTimeString();
+            line.textContent = `[${time}] ${message}`;
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('logConsole').innerHTML =
+                '<div class="log-line info">Log cleared.</div>';
+        }
+
+        // ---------------------------------------------------------------
+        // Helpers
+        // ---------------------------------------------------------------
+
+        function truncate(str, len) {
+            if (!str) return '—';
+            return str.length > len ? str.slice(0, len - 3) + '...' : str;
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + units[i];
+        }
+
+        // ---------------------------------------------------------------
+        // Boot
+        // ---------------------------------------------------------------
+
+        init();
+    </script>
+</body>
+</html>

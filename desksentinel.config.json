@@ -1,0 +1,89 @@
+{
+    "targetFolders": [
+        "~/Desktop",
+        "~/Downloads"
+    ],
+    "dryRun": true,
+    "enableCalendar": true,
+    "aiBackend": {
+        "provider": "ollama",
+        "endpoint": "http://localhost:11434/v1/chat/completions",
+        "model": "llama3"
+    },
+    "language": "en",
+    "duplicateFolder": "Duplicates_To_Review",
+    "reportFolder": ".",
+    "categories": {
+        "College_Assignments": [
+            "OS",
+            "DS",
+            "DBMS",
+            "CN",
+            "AI",
+            "ML",
+            "SE",
+            "TOC",
+            "DAA"
+        ],
+        "UPI_Transactions": [
+            "UPI",
+            "PhonePe",
+            "GPay",
+            "Paytm",
+            "₹",
+            "Rs",
+            "Zomato",
+            "Swiggy",
+            "Amazon",
+            "Flipkart"
+        ],
+        "Projects_Code": [
+            ".ts",
+            ".js",
+            ".py",
+            ".java",
+            ".cpp",
+            ".c",
+            ".go",
+            ".rs",
+            ".html",
+            ".css"
+        ],
+        "Screenshots_Memes": [
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".webp",
+            ".bmp"
+        ],
+        "Documents_Misc": [
+            ".pdf",
+            ".doc",
+            ".docx",
+            ".txt",
+            ".ppt",
+            ".pptx",
+            ".xls",
+            ".xlsx",
+            ".csv"
+        ],
+        "Archives_Zips": [
+            ".zip",
+            ".rar",
+            ".7z",
+            ".tar",
+            ".gz",
+            ".bz2"
+        ],
+        "Media": [
+            ".mp4",
+            ".mp3",
+            ".avi",
+            ".mkv",
+            ".mov",
+            ".wav",
+            ".flac"
+        ]
+    }
+}

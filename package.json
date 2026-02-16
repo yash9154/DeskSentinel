@@ -1,0 +1,31 @@
+{
+  "name": "desksentinel-accomplish",
+  "version": "1.0.0",
+  "description": "DeskSentinel — An AI Guardian for Desktop & Downloads. Accomplish AI custom skill for intelligent file organization.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "dry-run": "tsx src/index.ts --dry-run",
+    "undo": "tsx src/index.ts --undo",
+    "dashboard": "tsx src/server.ts"
+  },
+  "keywords": [
+    "accomplish",
+    "desktop-automation",
+    "file-organizer",
+    "local-ai",
+    "privacy-first",
+    "ollama",
+    "hackathon"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
