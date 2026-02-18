@@ -39,34 +39,35 @@ This script covers a 3-minute live demo showcasing DeskSentinel organizing a mes
 
 ### Actions
 
-1. **Show the config** (5 seconds):
+1. **Launch the Dashboard** (10 seconds):
    ```bash
-   cat desksentinel.config.json
+   npm run dashboard
    ```
-   - Point out: local AI, dry-run option, target folders
+   - Show the terminal: "Starting DeskSentinel Dashboard..."
+   - Open `http://localhost:3847`
+   - Point out the **Premium Dark Mode UI** and real-time stats.
 
-2. **Run Dry-Run first** (20 seconds):
-   ```bash
-   npm run dry-run
-   ```
-   - Show the console output:
-     - Files being scanned
-     - AI summaries being generated
-     - Proposed renames and moves
-     - Duplicates detected
-   - "Notice: nothing has moved yet — dry-run lets us preview"
+2. **Configure & Scan** (20 seconds):
+   - In Dashboard > **Config** tab:
+     - Show target folders: `~/Downloads`
+     - Toggle **Dry Run Mode** ON
+   - Click **Run Dry-Run** button
+   - Watch the progress bar fill up
+   - Show the **"Files Scanned"** and **"Duplicates Found"** stats populating in real-time.
 
-3. **Run Live** (30 seconds):
-   ```bash
-   npm run dev
-   ```
-   - Show real-time console output:
-     - ✅ Renamed: `IMG_20260216_1432.jpg` → `UPI_Payment_Zomato_Feb16_320rs.jpg`
-     - ✅ Moved to `College_Assignments/OS/`
-     - ✅ Duplicate detected and moved to `Duplicates_To_Review/`
-   - "All powered by a local AI — nothing leaves my machine"
+3. **Review Changes** (30 seconds):
+   - Go to **Changes** tab
+   - Scroll through the list:
+     - "See how it plans to rename `IMG_...` to `UPI_Payment...`?"
+   - Go to **Duplicates** tab
+     - "It identified 533 duplicates by hash, not just name."
 
-4. **Show the organized folder** (20 seconds):
+4. **Run Live** (20 seconds):
+   - Click **Run Live** button
+   - Watch the "Files Moved" and "Renamed" counters go up.
+   - "And just like that, 1,600 files are organized locally."
+
+5. **Show the organized folder** (20 seconds):
    - Open the folder in File Explorer / Finder
    - Show the clean structure:
      ```

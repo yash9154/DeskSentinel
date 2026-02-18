@@ -43,6 +43,7 @@ DeskSentinel uses a **local AI** (Ollama/LM Studio) to:
 | 📅 **Calendar Integration** | Weekly reminders via Accomplish calendar API |
 | 🔍 **Dry-Run Mode** | Preview all changes before applying |
 | ↩️ **Undo Support** | Revert any cleanup using the report log |
+| 🖥️ **Web Dashboard** | Premium dark-mode UI for real-time monitoring & config |
 | 🇮🇳 **India-Specific Rules** | Detects UPI, PhonePe, GPay, Zomato, college subjects |
 | 🔒 **Privacy-First** | 100% local — no cloud, no data leaves your machine |
 
@@ -117,6 +118,11 @@ Edit `desksentinel.config.json`:
 ### Step 4: Run DeskSentinel
 
 ```bash
+# Start the Web Dashboard (Recommended):
+npm run dashboard
+# Opens http://localhost:3847
+
+# CLI Options:
 # Preview changes first (safe — nothing moves):
 npm run dry-run
 
@@ -147,11 +153,12 @@ desksentinel-accomplish/
 │   ├── duplicates.ts     # SHA-256 duplicate detection
 │   ├── reporter.ts       # Markdown report generator
 │   ├── calendar.ts       # Calendar reminder scheduling
+│   ├── server.ts         # Dashboard API server
 │   └── utils.ts          # Shared utilities & types
+├── dashboard/
+│   └── index.html        # Web Dashboard UI
 ├── docs/
 │   └── README.md         # This file
-├── demo/
-│   └── demo.md           # Video demo script
 ├── package.json
 ├── tsconfig.json
 ├── desksentinel.config.json
@@ -162,15 +169,13 @@ desksentinel-accomplish/
 
 ## 🎬 Demo Instructions
 
-1. Create a test folder with messy files (screenshots, PDFs, code files, duplicates)
-2. Point DeskSentinel's config at the test folder
-3. Run `npm run dry-run` to preview
-4. Run `npm run dev` to apply
-5. Show the generated `DeskSentinel_Report_*.md`
-6. Show the organized folder structure
-7. Show the calendar reminder (if Accomplish is running)
-
-See [`demo/demo.md`](../demo/demo.md) for the full 3-minute demo script.
+1. Launch the dashboard: `npm run dashboard` → open **http://localhost:3847**
+2. Configure target folders and toggle **Dry Run** mode ON
+3. Click **Run Dry-Run** to preview all changes
+4. Review the **Changes** and **Duplicates** tabs
+5. Click **Run Live** to apply
+6. Show the organized folder structure in File Explorer
+7. Show the generated `DeskSentinel_Report_*.md`
 
 ---
 
@@ -206,7 +211,7 @@ Building DeskSentinel taught me:
 - [ ] **Multi-Language Support** — Hindi/Marathi filename detection
 - [ ] **Notion/Google Drive Sync** — Organize cloud-synced folders
 - [ ] **Custom Category Training** — Let users teach DeskSentinel new categories
-- [ ] **GUI Dashboard** — Visual preview of proposed changes
+
 - [ ] **File Content Analysis** — Read file contents (not just names) for better AI summaries
 
 ---
