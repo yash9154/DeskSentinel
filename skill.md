@@ -1,3 +1,8 @@
+---
+name: DeskSentinel
+description: AI Guardian for Desktop & Downloads — scans, renames, organizes, and deduplicates messy folders 100% locally.
+---
+
 # 🛡️ DeskSentinel — AI Guardian for Desktop & Downloads
 
 ## Description
